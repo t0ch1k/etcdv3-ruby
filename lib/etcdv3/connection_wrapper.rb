@@ -29,7 +29,7 @@ class Etcdv3
     def handle(stub, method, method_args=[], retries: 1)
       @connection.call(stub, method, method_args)
 
-    rescue GRPC::Unavailable, GRPC::Core::CallError
+    rescue GRPC::Unavailable, GRPC::Core::CallError, GRPC::DeadlineExceeded
       $stderr.puts("Failed to connect to endpoint '#{@connection.hostname}'")
       if @endpoints.size > 1
         rotate_connection_endpoint
