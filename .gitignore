@@ -8,3 +8,9 @@
 /tmp/
 Gemfile.lock
 Guardfile
+
+# Devenv and co
+.devenv*
+devenv.local.nix
+devenv.local.yaml
+.direnv
