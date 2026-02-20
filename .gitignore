@@ -9,6 +9,7 @@
 Gemfile.lock
 Guardfile
 
+.claude
 # Devenv and co
 .devenv*
 devenv.local.nix
