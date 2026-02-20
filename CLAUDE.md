@@ -5,8 +5,7 @@ Ruby client library for etcd v3 API, using gRPC.
 ## Dev Environment
 
 - Uses devenv (Nix) — `devenv shell` to enter
-- Ruby 3.2, etcd 3.4 provided by Nix packages
-- `ETCD_UNSUPPORTED_ARCH=arm64` is set automatically for Apple Silicon
+- Ruby 3.4, etcd 3.5 provided by Nix packages
 - Main branch: `master`
 
 ## Commands
