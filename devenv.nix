@@ -12,9 +12,11 @@
 
   packages = [
     pkgs.git
-
+    pkgs.etcd_3_4    # etcd server for testing
     pkgs.libyaml     # Required by psych (transitive dep of debug, rails)
   ];
+
+  env.ETCD_UNSUPPORTED_ARCH = "arm64";
 
   enterShell = ''
     echo "Ruby $(ruby --version)"
