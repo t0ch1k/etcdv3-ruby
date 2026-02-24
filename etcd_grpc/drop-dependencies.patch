@@ -448,14 +448,54 @@
 @@ -1,13 +1,10 @@
  syntax = "proto3";
  package versionpb;
- 
+
 -import "gogoproto/gogo.proto";
  import "google/protobuf/descriptor.proto";
- 
+
  option go_package = "go.etcd.io/etcd/api/v3/versionpb";
- 
+
 -option (gogoproto.marshaler_all) = true;
 -option (gogoproto.unmarshaler_all) = true;
- 
+
  // Indicates etcd version that introduced the message, used to determine minimal etcd version required to interpret wal that includes this message.
  extend google.protobuf.MessageOptions {
+--- orig/server/etcdserver/api/v3lock/v3lockpb/v3lock.proto	2026-02-24 19:53:54.706906018 +0100
++++ patched/server/etcdserver/api/v3lock/v3lockpb/v3lock.proto	2026-02-24 19:54:03.269676714 +0100
+@@ -1,17 +1,10 @@
+ syntax = "proto3";
+ package v3lockpb;
+
+-import "gogoproto/gogo.proto";
+ import "etcd/api/etcdserverpb/rpc.proto";
+
+-// for grpc-gateway
+-import "google/api/annotations.proto";
+-
+ option go_package = "go.etcd.io/etcd/server/v3/etcdserver/api/v3lock/v3lockpb";
+
+-option (gogoproto.marshaler_all) = true;
+-option (gogoproto.unmarshaler_all) = true;
+-
+ // The lock service exposes client-side locking facilities as a gRPC interface.
+ service Lock {
+   // Lock acquires a distributed shared lock on a given named lock.
+@@ -21,20 +14,12 @@
+   // lock ownership. The lock is held until Unlock is called on the key or the
+   // lease associate with the owner expires.
+   rpc Lock(LockRequest) returns (LockResponse) {
+-      option (google.api.http) = {
+-        post: "/v3/lock/lock"
+-        body: "*"
+-    };
+   }
+
+   // Unlock takes a key returned by Lock and releases the hold on lock. The
+   // next Lock caller waiting for the lock will then be woken up and given
+   // ownership of the lock.
+   rpc Unlock(UnlockRequest) returns (UnlockResponse) {
+-      option (google.api.http) = {
+-        post: "/v3/lock/unlock"
+-        body: "*"
+-    };
+   }
+ }

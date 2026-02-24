@@ -16,6 +16,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency("grpc", "~> 1.17")
   s.add_development_dependency("pry-byebug", "~> 3.6")
-  s.add_development_dependency("rake", "~> 12.3")
+  s.add_development_dependency("rake", ">= 12.3")
   s.add_development_dependency("rspec", "~> 3.6")
 end
