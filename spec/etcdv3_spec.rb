@@ -293,16 +293,16 @@ describe Etcdv3 do
     describe '#role_grant_permission' do
       before { conn.role_add('grant') }
       after { conn.role_delete('grant') }
-      subject { conn.role_grant_permission('grant', :readwrite, 'a', **{range_end: 'Z'}) }
+      subject { conn.role_grant_permission('grant', :readwrite, 'a', **{range_end: 'z'}) }
       it { is_expected.to_not be_nil }
       it_should_behave_like "Etcdv3 instance using a timeout", :role_grant_permission, 'grant', :readwrite, 'a'
     end
 
     describe '#role_revoke_permission' do
       before { conn.role_add('grant') }
-      before { conn.role_grant_permission('grant', :readwrite, 'a', range_end: 'Z') }
+      before { conn.role_grant_permission('grant', :readwrite, 'a', range_end: 'z') }
       after { conn.role_delete('grant') }
-      subject { conn.role_revoke_permission('grant', :readwrite, 'a', range_end: 'Z') }
+      subject { conn.role_revoke_permission('grant', :readwrite, 'a', range_end: 'z') }
       it { is_expected.to_not be_nil }
       describe "the timeouts" do
         before { conn.role_grant_permission('grant', :readwrite, 'a') }
@@ -522,7 +522,7 @@ describe Etcdv3 do
       end
     end
 
-    describe "namespace" do 
+    describe "namespace" do
 
       describe '#get' do
         let(:get_conn) { local_connection_with_namespace("/namespace-get/") }
@@ -534,15 +534,15 @@ describe Etcdv3 do
           conn.put('/namespace-get/appless', 'appless')
         end
 
-        it 'returns key w/o namespace' do 
+        it 'returns key w/o namespace' do
           expect(get_conn.get("apple").kvs.last.value).to eq('apple')
         end
 
-        it 'returns keys w/o namespace' do 
+        it 'returns keys w/o namespace' do
           expect(get_conn.get("apple", range_end: 'applf').kvs.size).to eq(3)
         end
 
-        it 'returns all keys under namespace' do 
+        it 'returns all keys under namespace' do
           expect(get_conn.get("", range_end: "\0").kvs.size).to eq(3)
         end
       end
@@ -553,23 +553,23 @@ describe Etcdv3 do
         before do
           put_conn.put('apple_put', 'test')
         end
-        it 'returns key with namespace' do 
+        it 'returns key with namespace' do
           expect(conn.get("/namespace-put/apple_put").kvs.last.value).to eq('test')
         end
       end
 
-      describe '#del' do 
+      describe '#del' do
         let(:del_conn) { local_connection_with_namespace("/del-test/") }
-        
-        context 'zero-byte' do 
-          before do 
+
+        context 'zero-byte' do
+          before do
             del_conn.put('test', "key")
             del_conn.put('test2', "key2")
             conn.put('wall', 'zzzz')
             conn.put('walzz', 'adsfas')
           end
 
-          it 'deleting all keys should be scoped to namespace' do 
+          it 'deleting all keys should be scoped to namespace' do
             resp = del_conn.del("", range_end: "\0")
             expect(resp.deleted).to eq(2)
             expect(conn.get("wall").kvs.last.value).to eq('zzzz')
@@ -656,7 +656,7 @@ describe Etcdv3 do
             end
           end
         end
-  
+
         describe 'txn.create_revision' do
           before { trans_conn.put('txn', 'value') }
           after { trans_conn.del('txn') }
@@ -686,7 +686,7 @@ describe Etcdv3 do
             end
           end
         end
-  
+
         describe 'txn.mod_revision' do
           before { trans_conn.put('txn', 'value') }
           after { trans_conn.del('txn') }
@@ -718,7 +718,7 @@ describe Etcdv3 do
             end
           end
         end
-  
+
         describe 'txn.version' do
           before { trans_conn.put('txn-version', 'value') }
           after { trans_conn.del('txn-version') }
@@ -753,13 +753,13 @@ describe Etcdv3 do
 
       # Locking is not implemented in etcd v3.1.X
       unless $instance.version < Gem::Version.new("3.2.0")
-        describe "locking" do 
+        describe "locking" do
           let(:ns_conn) { local_connection_with_namespace("/namespace/") }
 
           describe '#lock' do
             let(:lease_id) { lease_stub.lease_grant(10)['ID'] }
             subject { ns_conn.lock('mylocklock', lease_id) }
-            it 'should lock key under specified namespace' do 
+            it 'should lock key under specified namespace' do
               expect(conn.get("/namespace/#{subject.key}").kvs).to_not be_empty
             end
           end
