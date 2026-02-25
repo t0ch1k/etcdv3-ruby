@@ -58,8 +58,8 @@ docker run --rm \
 echo "==> Done. Generated files:"
 find "$RESULT_DIR" -type f | sort
 
-# Step 4: Copy generated files to lib/etcdv3/etcdrpc/protobuf4
-DEST_DIR="$(cd "$SCRIPT_DIR/.." && pwd)/lib/etcdv3/etcdrpc/protobuf4"
+# Step 4: Copy generated files to lib/etcdv3/rpc
+DEST_DIR="$(cd "$SCRIPT_DIR/.." && pwd)/lib/etcdv3/rpc"
 echo "==> Copying generated files to ${DEST_DIR}..."
 rm -rf "$DEST_DIR"
 mkdir -p "$DEST_DIR"

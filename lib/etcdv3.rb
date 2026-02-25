@@ -1,14 +1,10 @@
 require 'grpc'
 require 'uri'
 
-if Gem.loaded_specs['google-protobuf'].version >= Gem::Version.new('4.0')
-  $LOAD_PATH.unshift(File.expand_path('etcdv3/etcdrpc/protobuf4', __dir__))
-  require 'etcd/api/etcdserverpb/rpc_services_pb'
-  require 'etcd/server/etcdserver/api/v3lock/v3lockpb/v3lock_services_pb'
-else
-  require 'etcdv3/etcdrpc/protobuf3/rpc_services_pb'
-  require 'etcdv3/etcdrpc/protobuf3/v3lock_services_pb'
-end
+$LOAD_PATH.unshift(File.expand_path('etcdv3/rpc', __dir__))
+require 'etcd/api/etcdserverpb/rpc_services_pb'
+require 'etcd/server/etcdserver/api/v3lock/v3lockpb/v3lock_services_pb'
+
 require 'etcdv3/auth'
 require 'etcdv3/kv/requests'
 require 'etcdv3/kv/transaction'
