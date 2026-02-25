@@ -1,0 +1,4 @@
+proto/*
+result/*
+!Gemfile.lock
+!generate.sh
